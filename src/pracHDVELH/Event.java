@@ -27,7 +27,7 @@ public class Event extends NodeMultiple {
 
 	//Constructor
 	public Event(){
-		this(new GUIManager,null);
+		this(new GUIManager(),null);
 	}
 
 	public Event(GUIManager gui,String data){
@@ -93,7 +93,7 @@ public class Event extends NodeMultiple {
 	 */
 	public String getData() {
 		/* TO BE COMPLETED */
-		return this.data;
+		return super.getData().toString();
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class Event extends NodeMultiple {
 	 */
 	public void setData(String data) {
 		/* TO BE COMPLETED */
-		this.data = data;
+		super.setData(data);
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class Event extends NodeMultiple {
 	@Override
 	public Event getDaughter(int i) {
 		/* TO BE COMPLETED */
-		return this.daughters[i];
+		return (Event) super.getDaughter(i);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class Event extends NodeMultiple {
 	 */
 	public void setDaughter(Event daughter, int i) {
 		/* TO BE COMPLETED */
-		this.daughters[i] = daughter;
+		super.setDaughter(daughter,i);
 	}
 
 	/**
@@ -150,13 +150,26 @@ public class Event extends NodeMultiple {
 
 	/* Methods */
 	/* TO BE COMPLETED */
+	public int interpretAnswer(String playerAnswer){
+	    if (playerAnswer == null){ ErrorNaiveHandler.abort("null have been give as parameter" + "@" + getClass() + ".interpretAnswer");}
+		int i = 0;
+		while (!playerAnswer.matches("[1-9]") || !isInRange(Integer.parseInt(playerAnswer))|| playerAnswer.isEmpty() || Integer.parseInt(playerAnswer) <= 0 ){
+			gui.output(WARNING_MSG_INTEGER_EXPECTED);
+			playerAnswer = reader.next();
+		}
+		i = Integer.parseInt(playerAnswer);
+		return --i;
+	}
 	//Run
-	public Event Run(){
-		gui.outpoutln(getData());
-		gui.outpout(PROMPT_ANSWER);
-		playerAnswer = reader.next();
-		chosenPath = interpretAnswer();
-		rerurn getDaughter(chosenPath);
+	public Event run(){
+		if(super.hasDaughters()) {
+			gui.outputln(getData());
+			gui.output(PROMPT_ANSWER);
+			playerAnswer = reader.next();
+			chosenPath = interpretAnswer(playerAnswer);
+			return getDaughter(chosenPath);
+		}
+		else return this;
 	}
 
 

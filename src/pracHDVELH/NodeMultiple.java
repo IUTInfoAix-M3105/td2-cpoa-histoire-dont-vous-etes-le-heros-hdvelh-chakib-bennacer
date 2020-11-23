@@ -13,7 +13,7 @@ import myUtils.ErrorNaiveHandler;
  */
 public class NodeMultiple {
 	public static final int ERROR_STATUS_INDEX_OUT_OF_RANGE = -1;
-	public static final String ERROR_MSG_INDEX_OUT_OF_RANGE = "Index out of range";
+	public static final String ERROR_MSG_INDEX_OUT_OF_RANGE = "Index out of range ";
 	public static int NODE_MAX_ARITY = 10;
 
 	private NodeMultiple[] daughters;
@@ -38,7 +38,7 @@ public class NodeMultiple {
 	public NodeMultiple getDaughter(int i) {
 		/* TO BE COMPLETED */
 		if(i<0 || i >= NODE_MAX_ARITY)
-		{return ErrorNaiveHandler.abort(ERROR_MSG_INDEX_OUT_OF_RANGE + "@" + getClasse() + ".getDaughters");}
+		{ErrorNaiveHandler.abort(ERROR_MSG_INDEX_OUT_OF_RANGE + "@" + getClass() + ".getDaughters"); }
 		return daughters[i];
 	}
 
@@ -58,9 +58,9 @@ public class NodeMultiple {
 	 */
 	public void setDaughter(NodeMultiple daughter, int i) {
 		/* TO BE COMPLETED */
-		if (i > 0 || i >= NODE_MAX_ARITY)
-		{return ErrorNaiveHandler.abort(ERROR_MSG_INDEX_OUT_OF_RANGE + "@" + getClasse() + ".getDaughters");}
-		this.daughter[i] = daughter;
+		if (i < 0 || i >= NODE_MAX_ARITY)
+		{ ErrorNaiveHandler.abort(ERROR_MSG_INDEX_OUT_OF_RANGE + "@" + getClass() + ".getDaughters");}
+		this.daughters[i] = daughter;
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class NodeMultiple {
 	 */
 	public void setDaughters(NodeMultiple[] daughters) {
 		/* TO BE COMPLETED */
-		this.daughters[] = daughters;
+		this.daughters = daughters;
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class NodeMultiple {
 	public void addDaughter(NodeMultiple daughter) {
 		/* TO BE COMPLETED */
 		int i = 0;
-		while (i < daughters.length || daughters[i] != null){i++;}
+		while (i < daughters.length && daughters[i] != null){i++;}
 		if (i < daughters.length){
 			daughters[i] = daughter;
 		}
@@ -120,7 +120,11 @@ public class NodeMultiple {
 		/* TO BE COMPLETED */
 		int i = 0;
 		while ( i < daughters.length && daughters[i] == null){i++;}
-		return i < daughters.length ? true : false;
+		return (i < daughters.length);
+	}
+
+	public boolean isInRange(int i){
+		return  ( i >= 0 && i <= daughters.length );
 	}
 
 
@@ -143,6 +147,8 @@ public class NodeMultiple {
 		/* TO BE COMPLETED */
 		this();
 		this.data = data;
+	}
+
 }
 
 // eof

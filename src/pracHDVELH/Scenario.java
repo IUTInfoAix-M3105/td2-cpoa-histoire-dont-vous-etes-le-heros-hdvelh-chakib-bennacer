@@ -51,14 +51,14 @@ public class Scenario {
 		// **2.3:event3
 		// ***E
 		// ***event3
-
+/*
 		Event event3 = new EventExactSolution(gui, "Wizard: how much is worth pi?", "3.14159");
 		event2.setData(event2.getData() + " (3)2.3");
 		event2.addDaughter(event3);
 		event3.addDaughter(endEvent);
 		event3.addDaughter(event3);
 
-		/* ******* */
+
 		// **2.3
 		// ***event4
 		// ****event2
@@ -73,8 +73,30 @@ public class Scenario {
 		event4.addDaughter(event2);
 		event4.addDaughter(endEvent);
 		event4.addDaughter(event3);
-
+*/
 		System.out.println(scenario.run());
+	}
+	//CONSTRUCTOR
+	public Scenario(){
+		this(new GUIManager(),new Event());
+	}
+
+	public Scenario(GUIManager gui, Event startEvent){
+		this.gui = gui;
+		this.head = startEvent;
+	}
+
+	//RUN
+	public String run(){
+		if (head != null) {
+			Event Ok = head.run();
+			while (Ok.hasDaughters()) {
+				Ok = Ok.run();
+			}
+			gui.outputln(Ok.getData());
+			return "Fin";
+		}
+		else return "pas de head";
 	}
 }
 
